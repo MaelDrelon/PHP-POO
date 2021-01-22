@@ -2,34 +2,37 @@
 
 </head>
 <body>
-<form action="" method="get">
+<form action="" method="post">
+<?php
+    $BDD = new PDO('mysql:host=localhost; dbname=MaelDrelonPOO; charset=utf8','mael', '');
+    $rq = $BDD->query("SELECT * FROM Personnage");
+?>
 
-<label for="Pseudo">Pseudo</label>
-<input type="text" name="Pseudo" id="Pseudo">
+    <select name='Personnage'> 
+        <?php
+            foreach ($rq as $Personnage) 
+            {
+                echo "<option value='".$Personnage["id"]."'>".$Personnage["Pseudo"]."</option>";
+            }
+        ?>
+    </select>
 
-<label for="Force">Force</label>
-<input type="text" name="Force" id="Puissance">
-
-<label for="Vie">Vie</label>
-<input type="text" name="Vie" id="Vie">
-
-<input type="submit" name="submit" value="Envoyer">
+    <input type="submit" name="Envoyé" value="Envoyer"/>
 </form>
 
 <?php
-if (isset($_GET["submit"])) 
+if (isset($_POST["Envoyé"])) 
 {
-    try 
+    include "Personnage.php";
+
+    if (isset($_POST["Personnage"])) 
     {
-        $BDD = new PDO('mysql:host=localhost; dbname=MaelDrelonPOO; charset=utf8','mael', '');
-        $rq = $BDD->prepare("INSERT INTO `Personnage`(`Vie`, `Puissance`, `Pseudo`) VALUES (?, ?, ?)");
-        $rq->execute(array($_GET["Vie"], $_GET["Force"], $_GET["Pseudo"]));
+        $Delete = new DeletePerso($DB, $_POST["Personnage"]);
+        $Delete->Delete();
     } 
-    catch (\Throwable $th) 
-    {
-        echo $th;
-    }
-}            
+    else 
+    echo "Un problème est apparu";
+}        
 highlight_file(__FILE__);
 ?>
 </body>
