@@ -1,5 +1,5 @@
 <head>
-
+<?php include "Personnage.php"; ?>
 </head>
 <body>
 <form action="" method="post">
@@ -17,17 +17,17 @@
         ?>
     </select>
 
-    <input type="submit" name="Envoyé" value="Envoyer"/>
+     <input type="submit" name="Envoyé" value="Envoyer"/>
+
 </form>
 
 <?php
 if (isset($_POST["Envoyé"])) 
 {
-    include "Personnage.php";
 
     if (isset($_POST["Personnage"])) 
     {
-        $Delete = new DeletePerso($DB, $_POST["Personnage"]);
+        $Delete = new DeletePerso($BDD, $_POST["Personnage"]);
         $Delete->Delete();
     } 
     else 
